@@ -8,12 +8,16 @@ const main = async () => {
   // create a new instance of MikroORM
   const orm = await MikroORM.init(microConfig); // This returns a promise
 
-  // Create an instance of Post
-  const post = orm.em.create(Post, { title: "my first post" });
-  // persist to database
-  await orm.em.persistAndFlush(post);
-  console.log("-----------sql 2 -------");
-  await orm.em.nativeInsert(Post, { title: "My first post 2" });
+  // run the migration in code
+  await orm.getMigrator().up();
+
+  //   // Create an instance of Post
+  //   const post = orm.em.fork({}).create(Post, { title: "my first post" });
+  //   // persist to database
+  //   await orm.em.fork({}).persistAndFlush(post);
+
+  //   const posts = await orm.em.fork({}).find(Post, {}); // View all posts in the database
+  //   console.log(posts);
 };
 
 // call main function
